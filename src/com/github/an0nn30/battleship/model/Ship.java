@@ -1,7 +1,5 @@
 package com.github.an0nn30.battleship.model;
 
-import com.github.an0nn30.battleship.Direction;
-
 import java.util.UUID;
 
 public class Ship {
