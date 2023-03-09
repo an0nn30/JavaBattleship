@@ -1,10 +1,6 @@
 package com.github.an0nn30.battleship.engine;
 
-import com.github.an0nn30.battleship.model.Direction;
-import com.github.an0nn30.battleship.model.Player;
-import com.github.an0nn30.battleship.model.Cell;
-import com.github.an0nn30.battleship.model.Grid;
-import com.github.an0nn30.battleship.model.Ship;
+import com.github.an0nn30.battleship.model.*;
 
 import java.util.*;
 
@@ -30,6 +26,26 @@ public class Engine {
         }
     }
 
+    public Engine(int size, int x, int y, Direction direction, int length) {
+        this.grid = new Grid(size);
+
+        this.ship = new ArrayList<>();
+        this.ship.add(new Ship(
+                x,
+                y,
+                direction,
+                length
+        ));
+
+        for (Ship ship : this.ship) {
+            this.grid.addShip(ship);
+        }
+    }
+
+    public Grid getGrid() {
+        return grid;
+    }
+
     private static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -47,13 +63,11 @@ public class Engine {
     private int getShipCount() {
         Set<Ship> ships = new HashSet<>();
 
-        Cell[][] cells = grid.getCells();
-        for (Cell[] cell : cells) {
-            for (Cell value : cell) {
-                Ship ship = value.getShip();
-                if (ship != null && !ships.contains(ship)) {
-                    ships.add(ship);
-                }
+        List<Cell> cells = grid.getCells();
+        for (Cell cell : cells) {
+            Ship ship = cell.getShip();
+            if (ship != null && !ships.contains(ship)) {
+                ships.add(ship);
             }
         }
         return ships.size();
@@ -100,6 +114,10 @@ public class Engine {
                     }
                     scanner.nextLine();
                 }
+                case "help" -> {
+                    this.showCommands();
+                    scanner.nextLine();
+                }
                 case "exit" -> System.exit(0);
                 default -> System.out.println("Invalid command");
             }
@@ -121,7 +139,6 @@ public class Engine {
             System.out.printf("  %s%s%s%n", "=".repeat(numEquals / 2), title, "=".repeat(numEquals / 2));
             this.grid.print(false);
             System.out.println("Enter orders:");
-            this.showCommands();
             System.out.print("> ");
             String input = scanner.nextLine();
             this.handleInput(input, player, scanner);
