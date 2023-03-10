@@ -3,8 +3,6 @@ package com.github.an0nn30.battleship.model;
 
 
 public class Cell {
-
-
     private final int x;
     private final int y;
 
@@ -12,16 +10,13 @@ public class Cell {
 
     private CellStatus status;
 
-    private boolean isHit;
 
-    private boolean showShip;
     private char symbol;
 
     public Cell(int x, int y, CellStatus status) {
         this.x = x;
         this.y = y;
         this.setStatus(status);
-        this.isHit = false;
     }
 
     public CellStatus getStatus() {
@@ -30,12 +25,8 @@ public class Cell {
 
     public char getSymbol(boolean showShip) {
         if (this.ship != null && showShip) {
-            return 'S';
+            return this.ship.getSymbol();
         }
-        return this.symbol;
-    }
-
-    public char getSymbol() {
         return this.symbol;
     }
 
@@ -43,16 +34,21 @@ public class Cell {
         switch (status) {
             case HIT -> this.symbol = 'X';
             case MISS -> this.symbol = 'M';
-            case EMPTY -> this.symbol = '~';
+            case EMPTY -> {
+                if (this.ship != null) {
+                    this.ship = null;
+                }
+                this.symbol = '~';
+            }
         }
         this.status = status;
     }
 
     public void takeHit() {
-        if (this.status == CellStatus.EMPTY && this.ship != null) {
+        if (this.getStatus() == CellStatus.EMPTY && this.getShip() != null) {
             this.setStatus(CellStatus.HIT);
             this.ship.takeHit();
-        } else if (this.status == CellStatus.EMPTY && this.ship == null) {
+        } else if (this.status == CellStatus.EMPTY && this.getShip() == null) {
             this.setStatus(CellStatus.MISS);
         }
     }
