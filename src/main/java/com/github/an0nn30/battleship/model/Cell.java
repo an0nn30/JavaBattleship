@@ -69,4 +69,28 @@ public class Cell {
     public String getY() {
         return String.valueOf(this.y);
     }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "x=" + x +
+                ", y=" + y +
+                ", ship=" + ship +
+                ", status=" + status +
+                ", symbol=" + symbol +
+                '}';
+    }
+
+    public String toJson() {
+        return "{\"x\":"
+                + this.x
+                + ",\"y\":"
+                + this.y
+                + ",\"ship\":" + ((this.ship != null) ? this.ship.toJson() : "null")
+                + ",\"status\":"
+                + "\"" + this.status + "\""
+                + ",\"symbol\":"
+                + "\"" + this.symbol + "\""
+                + "}";
+    }
 }

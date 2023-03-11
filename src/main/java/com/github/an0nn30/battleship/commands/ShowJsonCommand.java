@@ -2,21 +2,21 @@ package com.github.an0nn30.battleship.commands;
 
 import com.github.an0nn30.battleship.engine.Engine;
 
-public class ShowShipsCommand implements Command {
+public class ShowJsonCommand implements Command {
     private final Engine engine;
 
-    public ShowShipsCommand(Engine engine) {
+    public ShowJsonCommand(Engine engine) {
         this.engine = engine;
     }
 
     @Override
     public void execute(String[] args) {
-        this.engine.clearScreen();
-        System.out.println(this.engine.getGrid().getGridDrawing(true));
+        engine.clearScreen();
+        System.out.println(engine.getGrid().toJson());
     }
 
     @Override
     public String getHelpText() {
-        return "show ships - Show all ships";
+        return "show json - Show all contents in json format";
     }
 }

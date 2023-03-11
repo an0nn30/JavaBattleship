@@ -10,9 +10,11 @@ public class Grid {
 
     private final List<Cell> cells;
 
+    private String gridDrawing;
 
     public Grid(int size) {
         this.size = size;
+        this.gridDrawing = "";
         this.cells = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -105,28 +107,54 @@ public class Grid {
     }
 
     public void addShip(Ship ship) {
-        System.out.println("Adding ship " + ship);
         if (!this.placeShip(ship)) {
             System.out.println("Could not place ship: " + ship);
         }
     }
 
-    public void print(boolean reveal) {
+    @Override
+    public String toString() {
+        return "Grid{" +
+                "size=" + size +
+                ", cells=" + cells +
+                '}';
+    }
+
+    public String toJson() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("\"size\": ").append(this.size).append(", ");
+        sb.append("\"cells\": [");
+        for (int i = 0; i < this.cells.size(); i++) {
+            sb.append(this.cells.get(i).toJson());
+            if (i < this.cells.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    public String getGridDrawing(boolean reveal) {
+        StringBuilder sb = new StringBuilder();
         for (int i = this.getSize() - 1; i >= 0; i--) {
             for (int j = 0; j < this.size; j++) {
                 if (j == 0) {
-                    System.out.print(i + "| ");
+                    sb.append(i).append("| ");
                 }
-                System.out.print(this.getCell(j, i).getSymbol(reveal) + " ");
+                sb.append(this.getCell(j, i).getSymbol(reveal)).append(" ");
             }
-            System.out.println();
+            sb.append("\n");
             if (i == 0) {
-                System.out.print("   ");
+                sb.append("   ");
                 for (int j = 0; j < this.size; j++) {
-                    System.out.print(j + " ");
+                    sb.append(j).append(" ");
                 }
-                System.out.println();
+                sb.append("\n");
             }
         }
+        this.gridDrawing = sb.toString();
+        return this.gridDrawing;
     }
 }

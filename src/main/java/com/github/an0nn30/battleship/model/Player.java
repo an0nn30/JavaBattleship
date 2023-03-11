@@ -5,4 +5,8 @@ public class Player {
         cell.takeHit();
         return cell.getShip() != null;
     }
+    @Override
+    public String toString() {
+        return "Player{}";
+    }
 }

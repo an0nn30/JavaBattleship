@@ -71,4 +71,14 @@ public class Ship {
                 ", symbol=" + symbol +
                 '}';
     }
+    public String toJson() {
+        return "{" +
+                "\"x\":" + x +
+                ", \"y\":" + y +
+                ", \"direction\":\"" + direction + "\"" +
+                ", \"length\":" + length +
+                ", \"maxHits\":" + maxHits +
+                ", \"symbol\":\"" + symbol + "\"" +
+                '}';
+    }
 }

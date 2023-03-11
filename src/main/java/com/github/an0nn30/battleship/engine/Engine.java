@@ -39,6 +39,7 @@ public class Engine {
         this.commands.put("show", showCommand);
         showCommand.addSubCommand("count", new ShowShipCount(this));
         showCommand.addSubCommand("ships", new ShowShipsCommand(this));
+        showCommand.addSubCommand("json", new ShowJsonCommand(this));
 
 
         for (int i = 0; i < shipCount; i++) {
@@ -120,7 +121,7 @@ public class Engine {
             int numEquals = ((this.grid.getSize() * 2) - titleLength);
 
             System.out.printf("  %s%s%s%n", "=".repeat(numEquals / 2), title, "=".repeat(numEquals / 2));
-            this.grid.print(debugMode);
+            System.out.println(this.grid.getGridDrawing(debugMode));
             System.out.println("Enter orders:");
             System.out.print("> ");
             input = scanner.nextLine().trim();
